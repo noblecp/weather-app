@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-// import ReactMapGL from "react-map-gl";
+import ReactMapGL from "react-map-gl";
 import { Button } from "@material-ui/core";
 import ZipForm from "./components/ZipForm";
 import CurrentWeather from "./components/CurrentWeather";
@@ -10,7 +10,7 @@ import CityForm from "./components/CityForm";
 
 function App() {
   const WEATHER_API_KEY = process.env.REACT_APP_weather_api_key;
-  // const MAPBOX_API_KEY = process.env.REACT_APP_mapbox_api_key;
+  const MAPBOX_API_KEY = process.env.REACT_APP_mapbox_api_key;
   const [weather, setWeather] = useState(null);
   const [zipCode, setZipCode] = useState("22903");
   const [city, setCity] = useState("Charlottesville");
@@ -19,15 +19,13 @@ function App() {
   const [daily, setDaily] = useState("null");
   const [tabToggle, setTabToggle] = useState(0);
 
-  // const [viewport, setViewport] = useState({
-  //   latitude: 38.0293,
-  //   // latitude: coordinates[1],
-  //   longitude: -78.4767,
-  //   // longitude: coordinates[0],
-  //   width: "30vw",
-  //   height: "30vh",
-  //   zoom: 10
-  // });
+  const [viewport, setViewport] = useState({
+    latitude: 38.0293,
+    longitude: -78.4767,
+    width: "50vw",
+    height: "50vh",
+    zoom: 10,
+  });
 
   // ZIP CODE
   useEffect(() => {
@@ -75,6 +73,11 @@ function App() {
       l.push(weather.coord.lon);
       l.push(weather.coord.lat);
       setCoordinates(l);
+      setViewport({
+        ...viewport,
+        longitude: weather.coord.lon,
+        latitude: weather.coord.lat,
+      });
     }
   }, [weather]);
 
@@ -98,7 +101,7 @@ function App() {
     if (coordinates) {
       const url = new URL("https://api.openweathermap.org/data/2.5/onecall");
       url.searchParams.append("appid", WEATHER_API_KEY);
-      url.searchParams.append("cnt", 2);
+      url.searchParams.append("cnt", 16);
       url.searchParams.append("lon", coordinates[0]);
       url.searchParams.append("lat", coordinates[1]);
       url.searchParams.append("exclude", "current,minutely,alerts");
@@ -119,6 +122,21 @@ function App() {
     setTabToggle(2);
   };
 
+  const goToLocation = () => {
+    setViewport({
+      ...viewport,
+      longitude: coordinates[1],
+      latitude: coordinates[0],
+      transitionDuration: 5000,
+    });
+  };
+
+  // useEffect(() => {
+  //   if (coordinates) {
+  //     goToLocation();
+  //   }
+  // }, [coordinates]);
+
   return (
     <div
       className="container"
@@ -126,8 +144,34 @@ function App() {
     >
       <div className="topInput">
         {/* ZIP FORM */}
-        <ZipForm className="zipForm" setZipCode={setZipCode} />
+        <ZipForm
+          className="zipForm"
+          setZipCode={setZipCode}
+          goToLocation={goToLocation}
+        />
         <CityForm className="cityForm" setCity={setCity} />
+      </div>
+
+      {/* MAPBOX */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          textAlign: "center",
+        }}
+      >
+        <div
+          style={{ width: "50vw", height: "50vh", border: "solid 2px black" }}
+        >
+          <ReactMapGL
+            {...viewport}
+            mapboxApiAccessToken={MAPBOX_API_KEY}
+            mapStyle="mapbox://styles/cpn1/cko4ramgv1hzh17mqdhtm19bq"
+            onViewportChange={(viewport) => {
+              setViewport(viewport);
+            }}
+          ></ReactMapGL>
+        </div>
       </div>
 
       <div className="mainDisplay">
@@ -218,31 +262,7 @@ function App() {
               nightTemp={d.temp.night}
             />
           ))}
-
-        {/* <pre>{JSON.stringify(weather, undefined, 4)}</pre> */}
-        {/* <pre>{JSON.stringify(hourly.hourly, undefined, 4)}</pre> */}
-        {/* <pre>{JSON.stringify(daily.daily, undefined, 4)}</pre> */}
       </div>
-
-      {/* MAPBOX */}
-
-      {/* <div
-        style={{ display: "flex", justifyContent: "center", textAlign: "center" }}
-      >
-        <div
-          style={{ width: "30vw", height: "30vh", border: "solid 2px black" }}
-        >
-        <ReactMapGL
-          {...viewport}
-          mapboxApiAccessToken={MAPBOX_API_KEY}
-          mapStyle="mapbox://styles/cpn1/cko4ramgv1hzh17mqdhtm19bq"
-          onViewportChange={viewport => {
-            setViewport(viewport)
-          }}
-          >
-        </ReactMapGL>
-          </div>
-      </div> */}
     </div>
   );
 }

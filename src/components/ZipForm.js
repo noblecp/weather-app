@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { TextField, Button } from "@material-ui/core";
 
-const ZipForm = ({ setZipCode }) => {
+const ZipForm = ({ setZipCode, goToLocation }) => {
   const [text, setText] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (text) {
       setZipCode(text);
+      goToLocation();
     }
   };
 

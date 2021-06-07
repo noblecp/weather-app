@@ -25,7 +25,7 @@ const ZipForm = ({ setZipCode, goToLocation }) => {
         onChange={(e) => setText(e.target.value)}
       />
       <Button
-        style={{ background: "rgb(23, 35, 91)", color: "white" }}
+        style={{ background: "rgb(208, 208, 208)", color: "white" }}
         onClick={onSubmit}
       >
         Search Zip

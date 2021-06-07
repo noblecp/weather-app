@@ -17,14 +17,15 @@ function App() {
   const [coordinates, setCoordinates] = useState(null);
   const [hourly, setHourly] = useState("null");
   const [daily, setDaily] = useState("null");
-  const [tabToggle, setTabToggle] = useState(0);
+  const [currentToggle, setCurrentToggle] = useState(true);
+  const [forecastToggle, setForecastToggle] = useState(null);
 
   const [viewport, setViewport] = useState({
     latitude: 38.0293,
     longitude: -78.4767,
     width: "100%",
     height: "100%",
-    zoom: 10,
+    zoom: 12,
   });
 
   // ZIP CODE
@@ -66,7 +67,7 @@ function App() {
     }
   }, [city, WEATHER_API_KEY]);
 
-  // load coordinates from the weather, if valid
+  // COORDINATES (if weather is valid)
   useEffect(() => {
     if (weather) {
       let l = [];
@@ -113,13 +114,13 @@ function App() {
   }, [coordinates, WEATHER_API_KEY]);
 
   const showCurrent = () => {
-    setTabToggle(0);
+    setCurrentToggle(!currentToggle);
   };
   const showHourly = () => {
-    setTabToggle(1);
+    setForecastToggle(0);
   };
   const showDaily = () => {
-    setTabToggle(2);
+    setForecastToggle(1);
   };
 
   const goToLocation = () => {
@@ -132,16 +133,10 @@ function App() {
   };
 
   return (
-    <div className="container">
+    <div>
       {/* MAPBOX */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          textAlign: "center",
-        }}
-      >
-        <div style={{ width: "100%", height: "30vh" }}>
+      <div className="mapbox-container">
+        <div className="reactmapgl-view">
           <ReactMapGL
             {...viewport}
             mapboxApiAccessToken={MAPBOX_API_KEY}
@@ -153,7 +148,6 @@ function App() {
           ></ReactMapGL>
         </div>
       </div>
-
       <div className="top-input">
         {/* ZIP FORM */}
         <ZipForm
@@ -161,10 +155,11 @@ function App() {
           setZipCode={setZipCode}
           goToLocation={goToLocation}
         />
+        {/* CITY FORM */}
         {/* <CityForm className="cityForm" setCity={setCity} /> */}
       </div>
-
       <div className="mainDisplay">
+        {weather && <h1 className="location-title">{weather.name}</h1>}
         {/* TOGGLES */}
         <div className="viewToggle">
           {/* CURRENT */}
@@ -178,39 +173,15 @@ function App() {
           >
             Current Weather
           </Button>
-          {/* HOURLY */}
-          {/* <Button
-            onClick={showHourly}
-            style={{
-              marginRight: "10px",
-              background: "rgb(23, 35, 91)",
-              color: "white",
-            }}
-          >
-            Hourly Forecast
-          </Button>
-
-          <Button
-            style={{
-              // marginRight: "10px",
-              background: "rgb(23, 35, 91)",
-              color: "white",
-            }}
-            onClick={showDaily}
-          >
-            Daily Forecast
-          </Button> */}
         </div>
-
         {/* WEATHER DISPLAY */}
-
         {/* LOCATION TITLE */}
-        {weather && <h1 className="location-title">{weather.name}</h1>}
+        {/* {weather && <h1 className="location-title">{weather.name}</h1>} */}
 
         {/* CURRENT WEATHER */}
-        {weather && tabToggle === 0 && (
+        {weather && currentToggle && (
           <CurrentWeather
-            tabToggle
+            // currentToggle
             main={weather.weather[0].main}
             temp={weather.main.temp}
             feel={weather.main.feels_like}
@@ -218,33 +189,6 @@ function App() {
             hum={weather.main.humidity}
           />
         )}
-
-        {/* HOURLY WEATHER */}
-        {hourly &&
-          tabToggle === 1 &&
-          hourly.hourly.map((h) => (
-            <HourlyWeather
-              temp={h.temp}
-              feel={h.feels_like}
-              main={h.weather[0].main}
-              time={h.dt}
-              hum={h.humidity}
-            />
-          ))}
-
-        {/* DAILY WEATHER */}
-        {daily &&
-          tabToggle == 2 &&
-          daily.daily.map((d) => (
-            <DailyWeather
-              main={d.weather[0].main}
-              time={d.dt}
-              dayTemp={d.temp.day}
-              minTemp={d.temp.min}
-              maxTemp={d.temp.max}
-              nightTemp={d.temp.night}
-            />
-          ))}
       </div>
       <div className="viewToggle">
         {/* HOURLY */}
@@ -269,6 +213,33 @@ function App() {
         >
           Daily Forecast
         </Button>
+      </div>
+      <div className="forecast-view">
+        {/* HOURLY WEATHER */}
+        {hourly &&
+          forecastToggle === 0 &&
+          hourly.hourly.map((h) => (
+            <HourlyWeather
+              temp={h.temp}
+              feel={h.feels_like}
+              main={h.weather[0].main}
+              time={h.dt}
+              hum={h.humidity}
+            />
+          ))}
+        {/* DAILY WEATHER */}
+        {daily &&
+          forecastToggle == 1 &&
+          daily.daily.map((d) => (
+            <DailyWeather
+              main={d.weather[0].main}
+              time={d.dt}
+              dayTemp={d.temp.day}
+              minTemp={d.temp.min}
+              maxTemp={d.temp.max}
+              nightTemp={d.temp.night}
+            />
+          ))}
       </div>
     </div>
   );

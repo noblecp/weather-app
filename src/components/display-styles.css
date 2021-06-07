@@ -1,16 +1,19 @@
 .current-weather-container,
-.hourly-weather-container {
+.hourly-weather-container,
+.daily-weather-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 10px;
 }
 
 .current-weather-display,
-.hourly-weather-display {
+.hourly-weather-display,
+.daily-weather-display {
   display: flex;
   text-align: center;
-  justify-content: space-between;
-  align-items: left;
+  justify-content: space-evenly;
+  align-items: flex-start;
   background-color: white;
   border-radius: 10px;
   /* border: black solid 1px; */

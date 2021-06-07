@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./display-styles.css";
 import Brightness5Icon from "@material-ui/icons/Brightness5";
 import Brightness3Icon from "@material-ui/icons/Brightness3";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
@@ -28,46 +29,44 @@ const DailyWeather = ({ main, time, dayTemp, minTemp, maxTemp, nightTemp }) => {
   }, [main]);
 
   return (
-    <div
-      className="days"
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        // background:"black"
-        justifyContent: "center",
-        // alignItems: "center",
-        padding: "2px",
-      }}
-    >
-      <div
-        className="dayCard"
-        style={{
-          background: "white",
-          borderRadius: "10px",
-          border: "black solid 1px",
-          // width: "200px",
-          width: "500px",
-          padding: "5px",
-          display: "flex",
-          flexDirection: "wrap",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-        }}
-      >
-        <h2>{icon}</h2>
-        <p>{day}</p>
-        <p>
-          <Brightness5Icon /> {dayTemp}
-        </p>
-        <p>
-          <ArrowDownwardIcon /> {minTemp}
-        </p>
-        <p>
-          <ArrowUpwardIcon /> {maxTemp}
-        </p>
-        <p>
-          <Brightness3Icon /> {nightTemp}
-        </p>
+    <div className="daily-weather-container">
+      <div className="daily-weather-display">
+        <p style={{ fontSize: "2vh" }}>{day}</p>
+        <div className="conditions">
+          <p style={{ color: "grey" }}>{main.toUpperCase()}</p>
+          <h2 style={{ fontSize: "2vh" }}>{icon}</h2>
+        </div>
+        <div className="day-temp">
+          {/* <p style={{ color: "grey" }}>DAY TEMP</p> */}
+          <p>
+            <Brightness5Icon />
+          </p>
+          <p>{dayTemp}</p>
+        </div>
+
+        <div className="min-temp">
+          {/* <p style={{ color: "grey" }}>MIN TEMP</p> */}
+          <p>
+            <ArrowDownwardIcon />
+          </p>
+          <p>{minTemp}</p>
+        </div>
+
+        <div className="max-temp">
+          {/* <p style={{ color: "grey" }}>MAX TEMP</p> */}
+          <p>
+            <ArrowUpwardIcon />
+          </p>
+          <p>{maxTemp}</p>
+        </div>
+
+        <div className="night-temp">
+          {/* <p style={{ color: "grey" }}>NIGHT TEMP</p> */}
+          <p>
+            <Brightness3Icon />
+          </p>
+          <p>{nightTemp}</p>
+        </div>
       </div>
     </div>
   );

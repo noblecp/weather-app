@@ -1,10 +1,11 @@
+import "./display-styles.css";
 import React, { useState, useEffect } from "react";
 import WbSunnyIcon from "@material-ui/icons/WbSunny";
 import CloudIcon from "@material-ui/icons/Cloud";
 import InvertColorsIcon from "@material-ui/icons/InvertColors";
 import getHour from "../functions/hour";
 
-const HourlyWeather = ({ temp, feel, main, time }) => {
+const HourlyWeather = ({ time, main, temp, feel, hum }) => {
   const [icon, setIcon] = useState("");
   useEffect(() => {
     switch (main) {
@@ -24,50 +25,28 @@ const HourlyWeather = ({ temp, feel, main, time }) => {
   const t = getHour(time);
 
   return (
-    <div
-      className="hours"
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        // background:"black"
-        justifyContent: "center",
-        // alignItems: "center",
-        padding: "2px",
-      }}
-    >
-      <div
-        className="hourCard"
-        style={{
-          background: "white",
-          borderRadius: "10px",
-          border: "black solid 1px",
-          // width: "200px",
-          width: "500px",
-          padding: "5px",
-          display: "flex",
-          flexDirection: "wrap",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-        }}
-      >
-        {/* time and icon */}
-        <p style={{ color: "grey" }}>
-          {t} {icon}
-        </p>
+    <div className="hourly-weather-container">
+      <div className="hourly-weather-display">
+        {/* time */}
+        <p style={{ fontSize: "3vh" }}>{t}</p>
+        {/* icon */}
+        <div className="conditions">
+          <p style={{ color: "grey" }}>{main.toUpperCase()}</p>
+          <p style={{ fontSize: "3vh" }}>{icon}</p>
+        </div>
         {/* temperature */}
-        <h3>{temp} ºC </h3>
+        <div className="temperature">
+          <p style={{ color: "grey" }}>TEMPERATURE</p>
+          <h3>{temp}ºC </h3>
+        </div>
         {/* feels like */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "wrap",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <p style={{ color: "grey" }}>feels like </p>
-          <p> {feel}</p>
-          <p>ºC </p>
+        <div className="feels-like">
+          <p style={{ color: "grey" }}>FEELS LIKE</p>
+          <p> {feel} ºC</p>
+        </div>
+        <div className="humidity">
+          <p style={{ color: "grey" }}>HUMIDITY</p>
+          <p>{hum}ºC </p>
         </div>
       </div>
     </div>

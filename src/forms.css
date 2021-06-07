@@ -1,0 +1,22 @@
+.zip-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 20px;
+}
+
+.city-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .search-btns {
+  background: rgb(23, 35, 91);
+  color: white;
+} */
+
+/* .zip-input,
+.city-input {
+  padding-right: 10px;
+} */

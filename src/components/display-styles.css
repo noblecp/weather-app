@@ -1,0 +1,25 @@
+.current-weather-container,
+.hourly-weather-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.current-weather-display,
+.hourly-weather-display {
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  align-items: left;
+  background-color: white;
+  border-radius: 10px;
+  /* border: black solid 1px; */
+  width: 70%;
+  padding: 10px;
+}
+/* .current-description,
+.current-temperature,
+.current-feels-like,
+.current-humidity {
+  color: "grey";
+} */

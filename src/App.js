@@ -22,8 +22,8 @@ function App() {
   const [viewport, setViewport] = useState({
     latitude: 38.0293,
     longitude: -78.4767,
-    width: "50vw",
-    height: "50vh",
+    width: "100%",
+    height: "100%",
     zoom: 10,
   });
 
@@ -127,31 +127,12 @@ function App() {
       ...viewport,
       longitude: coordinates[1],
       latitude: coordinates[0],
-      transitionDuration: 5000,
+      // transitionDuration: 1000,
     });
   };
 
-  // useEffect(() => {
-  //   if (coordinates) {
-  //     goToLocation();
-  //   }
-  // }, [coordinates]);
-
   return (
-    <div
-      className="container"
-      // style={{ display: "flex", flexDirection: "column", justifyContent: "center", textAlign: "center" }}
-    >
-      <div className="topInput">
-        {/* ZIP FORM */}
-        <ZipForm
-          className="zipForm"
-          setZipCode={setZipCode}
-          goToLocation={goToLocation}
-        />
-        <CityForm className="cityForm" setCity={setCity} />
-      </div>
-
+    <div className="container">
       {/* MAPBOX */}
       <div
         style={{
@@ -160,13 +141,12 @@ function App() {
           textAlign: "center",
         }}
       >
-        <div
-          style={{ width: "50vw", height: "50vh", border: "solid 2px black" }}
-        >
+        <div style={{ width: "100%", height: "30vh" }}>
           <ReactMapGL
             {...viewport}
             mapboxApiAccessToken={MAPBOX_API_KEY}
-            mapStyle="mapbox://styles/cpn1/cko4ramgv1hzh17mqdhtm19bq"
+            mapStyle="mapbox://styles/cpn1/cko345bp11the17nz5v85j4tz"
+            // mapStyle="mapbox://styles/cpn1/cko4ramgv1hzh17mqdhtm19bq"
             onViewportChange={(viewport) => {
               setViewport(viewport);
             }}
@@ -174,68 +154,70 @@ function App() {
         </div>
       </div>
 
-      <div className="mainDisplay">
-        {/* <p>{weather.coord.lon}</p>
-        <p>{weather.coord.lat}</p> */}
+      <div className="top-input">
+        {/* ZIP FORM */}
+        <ZipForm
+          className="zipForm"
+          setZipCode={setZipCode}
+          goToLocation={goToLocation}
+        />
+        {/* <CityForm className="cityForm" setCity={setCity} /> */}
+      </div>
 
+      <div className="mainDisplay">
         {/* TOGGLES */}
-        <div
-          className="viewToggle"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <div className="viewToggle">
           {/* CURRENT */}
           <Button
             onClick={showCurrent}
-            style={{ marginRight: "10px", border: "black solid 1px" }}
+            style={{
+              marginRight: "10px",
+              background: "rgb(23, 35, 91)",
+              color: "white",
+            }}
           >
             Current Weather
           </Button>
           {/* HOURLY */}
-          <Button
+          {/* <Button
             onClick={showHourly}
-            style={{ marginRight: "10px", border: "black solid 1px" }}
+            style={{
+              marginRight: "10px",
+              background: "rgb(23, 35, 91)",
+              color: "white",
+            }}
           >
             Hourly Forecast
           </Button>
 
-          <Button onClick={showDaily} style={{ border: "black solid 1px" }}>
+          <Button
+            style={{
+              // marginRight: "10px",
+              background: "rgb(23, 35, 91)",
+              color: "white",
+            }}
+            onClick={showDaily}
+          >
             Daily Forecast
-          </Button>
+          </Button> */}
         </div>
 
-        {weather && (
-          <h1
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              padding: "10px",
-            }}
-          >
-            {weather.name}
-          </h1>
-        )}
+        {/* WEATHER DISPLAY */}
+
+        {/* LOCATION TITLE */}
+        {weather && <h1 className="location-title">{weather.name}</h1>}
 
         {/* CURRENT WEATHER */}
-        {
-          weather && tabToggle === 0 ? (
-            <CurrentWeather
-              tabToggle
-              className="curWeather"
-              // loc={weather.name}
-              main={weather.weather[0].main}
-              temp={weather.main.temp}
-              feel={weather.main.feels_like}
-              desc={weather.weather[0].description}
-              hum={weather.main.humidity}
-            />
-          ) : null
-          // <div>Invalid Zip Code</div>
-        }
+        {weather && tabToggle === 0 && (
+          <CurrentWeather
+            tabToggle
+            main={weather.weather[0].main}
+            temp={weather.main.temp}
+            feel={weather.main.feels_like}
+            desc={weather.weather[0].description}
+            hum={weather.main.humidity}
+          />
+        )}
 
         {/* HOURLY WEATHER */}
         {hourly &&
@@ -246,6 +228,7 @@ function App() {
               feel={h.feels_like}
               main={h.weather[0].main}
               time={h.dt}
+              hum={h.humidity}
             />
           ))}
 
@@ -262,6 +245,30 @@ function App() {
               nightTemp={d.temp.night}
             />
           ))}
+      </div>
+      <div className="viewToggle">
+        {/* HOURLY */}
+        <Button
+          onClick={showHourly}
+          style={{
+            marginRight: "10px",
+            background: "rgb(23, 35, 91)",
+            color: "white",
+          }}
+        >
+          Hourly Forecast
+        </Button>
+
+        <Button
+          style={{
+            // marginRight: "10px",
+            background: "rgb(23, 35, 91)",
+            color: "white",
+          }}
+          onClick={showDaily}
+        >
+          Daily Forecast
+        </Button>
       </div>
     </div>
   );

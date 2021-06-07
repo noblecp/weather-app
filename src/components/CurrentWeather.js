@@ -1,8 +1,9 @@
+import "./display-styles.css";
 import React, { useState, useEffect } from "react";
 import WbSunnyIcon from "@material-ui/icons/WbSunny";
 import CloudIcon from "@material-ui/icons/Cloud";
 import InvertColorsIcon from "@material-ui/icons/InvertColors";
-const CurrentWeather = ({ /*loc,*/ main, temp, feel, desc, hum }) => {
+const CurrentWeather = ({ main, temp, feel, desc, hum }) => {
   const [icon, setIcon] = useState("");
 
   useEffect(() => {
@@ -21,54 +22,24 @@ const CurrentWeather = ({ /*loc,*/ main, temp, feel, desc, hum }) => {
   }, [main]);
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <div
-        className="currentWeather"
-        style={{
-          display: "flex",
-          // flexDirection: "column",
-          textAlign: "center",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          background: "white",
-          borderRadius: "10px",
-          border: "black solid 1px",
-          width: "80%",
-          padding: "10px",
-        }}
-      >
-        <div>
-          {/* LOCATION */}
-          {/* <h1 style={{ marginRight: "10px" }}>{loc}</h1> */}
+    <div className="current-weather-container">
+      <div className="current-weather-display">
+        <div className="current-description">
           {/* DESCRIPTION */}
-          <p style={{ color: "grey" }}>
-            {desc.toUpperCase()} {icon}
-          </p>
+          <p style={{ color: "grey" }}>{desc.toUpperCase()}</p>
+          <p>{icon}</p>
         </div>
-        {/* TEMPERATURE */}
-        <h1>{temp}ºC</h1>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "wrap",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <div className="temperature">
+          <p style={{ color: "grey" }}>TEMPERATURE </p>
+          <h3>{temp}ºC</h3>
+        </div>
+        <div className="feels-like">
           <p style={{ color: "grey" }}>FEELS LIKE </p>
-          <h3>{feel}ºC</h3>
+          <p>{feel}ºC</p>
         </div>
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "wrap",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <div className="humidity">
           <p style={{ color: "grey" }}>HUMIDITY </p>
-          <h3>{hum}%</h3>
+          <p>{hum}%</p>
         </div>
       </div>
     </div>

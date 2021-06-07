@@ -1,3 +1,4 @@
+import "../forms.css";
 import React, { useState } from "react";
 import { TextField, Button } from "@material-ui/core";
 
@@ -9,26 +10,26 @@ const ZipForm = ({ setZipCode, goToLocation }) => {
     if (text) {
       setZipCode(text);
       goToLocation();
+      setText("");
     }
   };
 
   return (
-    <form
-      onSubmit={onSubmit}
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <form className="zip-form" onSubmit={onSubmit}>
       <TextField
-        className="zipInput"
+        // className="zip-input"
+        style={{ paddingRight: "10px" }}
         label="Enter zip code"
         value={text}
         placeholder="e.g. 22903"
         onChange={(e) => setText(e.target.value)}
       />
-      <Button onClick={onSubmit}>Search by Zip Code</Button>
+      <Button
+        style={{ background: "rgb(23, 35, 91)", color: "white" }}
+        onClick={onSubmit}
+      >
+        Search Zip
+      </Button>
     </form>
   );
 };

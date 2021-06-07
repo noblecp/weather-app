@@ -1,3 +1,4 @@
+import "../forms.css";
 import React, { useState } from "react";
 import { TextField, Button } from "@material-ui/core";
 
@@ -8,26 +9,26 @@ const CityForm = ({ setCity }) => {
     e.preventDefault();
     if (text) {
       setCity(text);
+      setText("");
     }
   };
 
   return (
-    <form
-      onSubmit={onSubmit}
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <form className="city-form" onSubmit={onSubmit}>
       <TextField
-        className="cityInput"
+        // className="city-input"
+        style={{ paddingRight: "10px" }}
         label="Enter city"
         value={text}
         placeholder="e.g. Charlottesville"
         onChange={(e) => setText(e.target.value)}
       />
-      <Button onClick={onSubmit}>Search by City</Button>
+      <Button
+        style={{ background: "rgb(23, 35, 91)", color: "white" }}
+        onClick={onSubmit}
+      >
+        Search by City
+      </Button>
     </form>
   );
 };

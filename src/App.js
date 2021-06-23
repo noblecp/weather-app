@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import LogRocket from "logrocket";
 import ReactMapGL from "react-map-gl";
 import { Button } from "@material-ui/core";
 import ZipForm from "./components/ZipForm";
@@ -9,6 +10,7 @@ import DailyWeather from "./components/DailyWeather";
 import CityForm from "./components/CityForm";
 
 function App() {
+  LogRocket.init("59bmrt/personal-website");
   const WEATHER_API_KEY = process.env.REACT_APP_weather_api_key;
   const MAPBOX_API_KEY = process.env.REACT_APP_mapbox_api_key;
   const [weather, setWeather] = useState(null);
